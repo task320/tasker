@@ -6,7 +6,7 @@ const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
 
-const BabiliWebpackPlugin = require('babili-webpack-plugin')
+// const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -31,6 +31,10 @@ let rendererConfig = {
   ],
   module: {
     rules: [
+      {
+        test: /\.svg$/,
+        loader:'vue-svg-loader'
+      },
       {
         test: /\.(js|vue)$/,
         enforce: 'pre',
@@ -63,11 +67,6 @@ let rendererConfig = {
         use: 'vue-html-loader'
       },
       {
-        test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
         test: /\.node$/,
         use: 'node-loader'
       },
@@ -84,6 +83,18 @@ let rendererConfig = {
             }
           }
         }
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader:'babel-loader',
+          options: {
+            babelrc: true,
+            extends: './.babelrc',
+            cacheDirectory: true
+          }
+        },
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
@@ -112,10 +123,6 @@ let rendererConfig = {
             name: 'fonts/[name]--[folder].[ext]'
           }
         }
-      },
-      {
-        test: /\.svg$/,
-        loader: 'vue-svg-loader',
       }
     ]
   },
@@ -174,7 +181,7 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
 
   rendererConfig.plugins.push(
-    new BabiliWebpackPlugin(),
+    // new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),

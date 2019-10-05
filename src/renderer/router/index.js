@@ -8,7 +8,7 @@ export default new Router({
     {
       path: '/',
       name: 'main-task-list',
-      component: require('@/components/ListMain').default
+      component: require('@/components/ListMain.vue').default
     },
     {
       path: '*',

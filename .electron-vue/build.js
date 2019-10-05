@@ -77,7 +77,8 @@ function pack (config) {
       if (err) reject(err.stack || err)
       else if (stats.hasErrors()) {
         let err = ''
-
+        console.log(stats.compilation.errors)
+        console.log(stats.assets)
         stats.toString({
           chunks: false,
           colors: true
